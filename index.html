@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js"defer></script>
     <title>Shopping List</title>
 </head>
 <body>
+  <section class="Shopping-List">
+    <h2>Shopping List</h2>
+    <div class="input">
+        <input type="text" class="input-feild" id="shoppinglistInput" placeholder="Add a new item">
+        <button class="btn">Add</button>
+    </div>
+    <ul class="scroll">
+        <li id="shoppingList"></li>
+    </ul>
+    <div>
+        <hr class="counter">
+        <div class="counter-container">
+            <p><span id="shoppinglistCount">0</span> Items total</p>
+            <button id="deleteButton" type="button">Delete All</button>
+        </div>
+    </div>
     
+    
+  </section>
+
+   <footer>
+    <div class="footer">
+        <p class="made-by">Made By</p>
+        <p class="author">Sufyaan Altaf</p>
+    </div>
+
+
+   </footer> 
 </body>
 </html>
