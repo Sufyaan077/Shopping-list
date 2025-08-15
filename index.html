@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <script src="./script.js"defer></script>
-    <title>Shopping List</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping List</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./script.js" defer></script>
 </head>
 <body>
   <section class="Shopping-List">
     <h2>Shopping List</h2>
+
     <div class="input">
-        <input type="text" class="input-feild" id="shoppinglistInput" placeholder="Add a new item">
-        <button class="btn">Add</button>
+      <input
+        type="text"
+        class="input-feild"
+        id="shoppinglistInput"
+        placeholder="Add a new item"
+        autocomplete="off"
+      />
+      <button class="btn" id="addButton" type="button">Add</button>
     </div>
+
     <ul class="scroll">
-        <li id="shoppingList"></li>
+      <!-- The actual list lives in this <li> container for easy column layout -->
+      <li id="shoppingList"></li>
     </ul>
+
     <div>
-        <hr class="counter">
-        <div class="counter-container">
-            <p><span id="shoppinglistCount">0</span> Items total</p>
-            <button id="deleteButton" type="button">Delete All</button>
-        </div>
+      <hr class="counter" />
+      <div class="counter-container">
+        <p><span id="shoppinglistCount">0</span> Items total</p>
+        <button id="deleteButton" type="button">Delete All</button>
+      </div>
     </div>
-    
-    
   </section>
 
-   <footer>
+  <footer>
     <div class="footer">
-        <p class="made-by">Made By</p>
-        <p class="author">Sufyaan Altaf</p>
+      <p class="made-by">Made By</p>
+      <p class="author">Sufyaan Altaf</p>
     </div>
-
-
-   </footer> 
+  </footer>
 </body>
 </html>

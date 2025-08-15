@@ -1,200 +1,273 @@
+/* =========================
+   Typography
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
 
+/* =========================
+   Theme
+========================= */
+:root{
+  --bg: linear-gradient(180deg,#f7f8fb 0%,#eef2f6 100%);
+  --card:#ffffff;
 
-:root {
-    --gradient:linear-gradient(0deg, #00d8a7 0%, #0d390b 100%);
-    --dark: #001747;
-    --grey:#b1bacb;
-    --grey-border:rgba(210, 210, 210,0.75);
-    --grey-light: #eeeeee;
-    --grey-dark:#405175;
-    --blue: #2d70fd;
-    --green: #00d8a7;
-    --white: #ffffff;
-}
-body {
-    margin:0px;
-    height: 100vh;
-    background:var(--gradient);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.btn {
-    color: var(--white);
-    font-size: 1.1rem;
-    padding: 0.7rem 1.5rem;
-    border-radius: 0.3rem;
-    background-color: var(--blue);
-    border: none;
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
-}
-h1,h2,h3,h4,h5,h6,p {
-    margin: 0;
+  --text:#0f172a;
+  --muted:#64748b;
+
+  --primary:#2563eb;
+  --primary-700:#1d4ed8;
+  --border:#e5e7eb;
+  --ring: rgba(37,99,235,.35);
+  --success:#16a34a;
+
+  --radius:16px;
+  --shadow-lg:0 10px 30px rgba(15,23,42,.08);
+  --shadow-sm:0 2px 10px rgba(15,23,42,.06);
 }
 
-/* Shopping list container */
-
-.Shopping-List {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    border-radius: 2rem;
-    background: var(--white);
-    padding: 3rem;
-    height: 50%;
-    width: 60%;
-    box-shadow: 0 1rem 3rem 1 rem rgba(0, 23, 71, 0.15);
-    max-width: 30rem;
+/* =========================
+   Base
+========================= */
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;          /* stack card then footer vertically */
+  align-items:center;
+  justify-content:flex-start;
+  font-family:"Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  padding: clamp(16px, 3vw, 32px);
 }
 
-h2 {
-    text-transform: uppercase;
-    height: 3rem;
-    color: var(--dark);
-    text-align: center;
+h1,h2,h3,h4,h5,h6,p{ margin:0; }
+
+/* =========================
+   Card
+========================= */
+.Shopping-List{
+  width:100%;
+  max-width:min(560px, 92vw);
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-lg);
+  padding: clamp(18px, 4vw, 28px);
+  gap: clamp(12px, 2.2vw, 18px);
+  display:flex;
+  flex-direction:column;
 }
 
-.input{  
-    position: relative;
-    display: flex;
-}
-  
-
-
-.input-feild {
-    width: 100%;
-    border: 0.06rem solid #d2d2d2bf;
-    border-radius: 0.5rem;
-    padding: 1.25rem;
-    font-size: 1rem;
-
+/* =========================
+   Heading
+========================= */
+h2{
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:600;
+  text-align:center;
+  color:var(--primary);
+  margin-bottom:6px;
+  font-size: clamp(18px, 2.2vw + 12px, 28px);
 }
 
-input[type="text"]::placeholder{
-    color: var(--grey)
+/* =========================
+   Input row
+========================= */
+.input{ position:relative; }
+
+.input-feild{
+  width:100%;
+  height: clamp(42px, 6.5vw, 48px);
+  padding: 0 clamp(94px, 14vw, 120px) 0 14px; /* room for Add button */
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#f8fafc;
+  font-size: clamp(14px, 1.2vw + 10px, 16px);
+  outline:none;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.input-feild::placeholder{ color:#94a3b8; }
+.input-feild:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px var(--ring);
 }
 
-.shoppinglist-container{
-    display: flex;
-    gap: 1rem;
+/* Add button inside input container */
+.btn{
+  position:absolute;
+  top:6px;
+  right:6px;
+  height: clamp(34px, 5.5vw, 40px);
+  padding: 0 clamp(12px, 2.8vw, 18px);
+  border:none;
+  border-radius:8px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  font-size: clamp(13px, 1.1vw + 9px, 15px);
+  cursor:pointer;
+  box-shadow:var(--shadow-sm);
+  transition:background-color .15s ease, transform .06s ease;
+}
+.btn:hover{ background:var(--primary-700); }
+.btn:active{ transform:translateY(1px); }
+
+/* =========================
+   List (dense, 2 columns)
+========================= */
+ul{ margin:0; padding:0; list-style:none; }
+
+/* Scroll area */
+.scroll{
+  height: clamp(260px, 42vh, 420px);
+  overflow:auto;
+  padding-right:6px;
+}
+.scroll::-webkit-scrollbar{ width:8px; }
+.scroll::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px; }
+.scroll::-webkit-scrollbar-track{ background:transparent; }
+
+/* Two-column flow: fills left column first, then right */
+#shoppingList{
+  column-count: 2;
+  column-gap: 12px;
+  padding: 2px; /* nudge for nice scrollbar spacing */
 }
 
-ul{
-    padding: 0;
-    margin: 0;
-    overflow-y: scroll;
+/* Each item card: checkbox + text on one line */
+#shoppingList p{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fff;
+  box-shadow:var(--shadow-sm);
+  line-height:1.3;
+  color:var(--text);
+  word-break: break-word;
+  margin:0 0 12px;               /* vertical gap between rows */
+  break-inside: avoid;           /* keep item intact in the column */
 }
 
-li{
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    padding: 1.3rem;
+/* The item text beside the checkbox */
+#shoppingList p .item-text{
+  display:inline-block;
+  margin:0;
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
 }
 
-#shoppingList p {
-    display: flex;
-    gap: 1rem ;
-    color: var(--dark);
-    align-items: center;
-
-}
-#shoppingList .disabled {
-    color: #8f98a8;
+/* Hover + completed */
+#shoppingList p:hover{ background:#f9fafb; }
+#shoppingList .disabled .item-text{
+  color:var(--muted);
+  text-decoration:line-through;
 }
 
-.disabled{
-    display: flex;
-    text-decoration: line-through;
+/* Custom checkbox (touch-friendly) */
+input[type="checkbox"]{
+  appearance:none;
+  width:20px; height:20px;
+  border:1.5px solid #cbd5e1;
+  border-radius:6px;
+  display:inline-grid;
+  place-content:center;
+  cursor:pointer;
+  transition:border-color .15s ease, background .15s ease;
+  flex:0 0 auto;
 }
-
-input[type=checkbox] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-}
-
 input[type="checkbox"]::before{
-    content: "\2713";
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.7rem;
-    text-align: center;
-    border: 0.06rem solid var(--grey-border);
-    border-radius: 50%;
-    color: transparent;
+  content:"";
+  width:12px; height:12px;
+  transform:scale(0);
+  transition:transform .12s ease;
+  clip-path:polygon(14% 53%, 0 39%, 4% 33%, 14% 41%, 34% 60%, 77% 16%, 83% 21%, 34% 70%);
+  background:#fff;
 }
-
-input[type="checkbox"]:checked::before{
-   color: var(--white);
-   background-color: var(--green);
-   border: 0.06rem solid var(--green);
-   border-radius: 50%;
+input[type="checkbox"]:checked{
+  background:var(--success);
+  border-color:var(--success);
 }
+input[type="checkbox"]:checked::before{ transform:scale(1); }
 
+/* =========================
+   Divider & bottom row
+========================= */
 .counter{
-    border: 0.06rem solid var(--grey-light);
-
+  border:none;
+  height:1px;
+  background:var(--border);
+  margin:6px 0 0;
+}
+.counter-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+  color:var(--muted);
+  padding-top:10px;
+}
+.counter-container button{
+  border:none;
+  background:transparent;
+  color:var(--muted);
+  font-weight:600;
+  cursor:pointer;
+  padding:8px 10px;
+  border-radius:8px;
+  transition:color .15s ease, background .15s ease;
+}
+.counter-container button:hover{
+  color:var(--text);
+  background:#f1f5f9;
 }
 
-.counter-container {
-    height: 2rem;
-    display: flex;
-    justify-content: space-between;
-    color: var(--grey);
+/* =========================
+   Footer badge (below card)
+========================= */
+footer{
+  width:100%;
+  display:flex;
+  justify-content:center;    /* center under the card */
+  margin-top:16px;
 }
-.counter-container p{
-    align-self: center;
+.footer{
+  background:var(--card);
+  border-radius:12px;
+  box-shadow:var(--shadow-sm);
+  padding:10px 14px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  width:max-content;
 }
+.made-by{ color:var(--muted); font-size:13px; }
+.author{ color:var(--primary); font-weight:600; font-size:13px; }
 
-.counter-container button {
-    border: none;
-    background-color: transparent;
-    color: var(--grey);
-    font-size: 1rem;
-}
-
-.footer {
-    display: flex;
-    gap: 1.8rem;
-    background-color: var(--white);
-    padding: 1.2rem;
-    border-radius: 0.5rem;
-}
-
-.made-by,.author {
-    font-size: 0.9rem;
-}
-
-.made-by{
-    color: var(--grey-dark);
+/* =========================
+   Motion & Breakpoints
+========================= */
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; }
 }
 
-.author{
-    color: #001747;
-    font-weight: bold;
+/* One column on small screens for readability */
+@media (max-width: 640px){
+  .Shopping-List{ border-radius:14px; }
+  .scroll{ height: clamp(220px, 48vh, 320px); }
+  #shoppingList{ column-count: 1; }
 }
 
-.scroll {
-    height: 15rem;
-  /*  scrollbar-width: thin; */
-
-}
-
-.scroll::-webkit-scrollbar {
-    width: 0.6rem;
-}
-
-.scroll::-webkit-scrollbar-thumb {
-    background-color: var(--blue);
-    border-radius: 0.5rem;
-}
-
-.scroll::-webkit-scrollbar-track {
-  display: none;
+@media (max-width: 420px){
+  .Shopping-List{ padding:16px; }
+  .input-feild{ padding-left:12px; padding-right:88px; }
+  .btn{ right:5px; top:5px; }
+  .counter-container{ font-size:13px; }
 }

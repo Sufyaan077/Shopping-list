@@ -1,107 +1,74 @@
-// Retrieve shopping list from local storage or initialize an empty array
+// ===== Persistent state =====
+let shoppinglist = JSON.parse(localStorage.getItem("shoppinglist")) || [];
 
-let shoppinglist = JSON.parse(localStorage.getItem("shoppinglist") || "[]");
-const shoppinglistInput = document.getElementById("shoppinglistInput");
-const shoppingList = document.getElementById("shoppingList");
-const shoppinglistCount = document.getElementById("shoppinglistCount");
-const addButton = document.querySelector(".btn");
-const deleteButton = document.getElementById("deleteButton");
+// ===== DOM elements =====
+const inputEl   = document.getElementById("shoppinglistInput");
+const listEl    = document.getElementById("shoppingList");
+const countEl   = document.getElementById("shoppinglistCount");
+const addBtn    = document.getElementById("addButton");
+const delAllBtn = document.getElementById("deleteButton");
 
-// Initialize
-document.addEventListener("DOMContentLoaded", function () {
-    addButton.addEventListener("click", addTask) ;
-    shoppinglistInput.addEventListener("keydown", function (event) {
-       if (event.key === "Enter") {
-        event.preventDefault();
-        addTask();
-       }
-     });
-      deleteButton.addEventListener("click", deleteAllTasks);
-      displayTasks();
-   });
-   
-
-
-
-
-function addTask() {
-    const newTask = shoppinglistInput.value.trim();
-    if (newTask !== "") {
-        shoppinglist.push({
-            text: newTask,
-            disabled: false,
-        });
-        saveToLocalStorage();
-        shoppinglistInput.value = "";
-        displayTasks();
-    }
+// ===== Helpers =====
+function save() {
+  localStorage.setItem("shoppinglist", JSON.stringify(shoppinglist));
 }
 
-function deleteAllTasks() {
-    console.log("test");
+function updateCount() {
+  countEl.textContent = shoppinglist.length;
 }
 
-function displayTasks() {
-    shoppingList.innerHTML = "";
-    shoppinglist.forEach((item, index) => {
-        const p = document.createElement("p");
-        p.innerHTML = `
-          <div class="shoppinglist-container">
-          <input type="checkbox" class="shoppinglist-checkbox"
-           id="input-${index}" ${
-            item.disabled ? "checked" : ""
-           }>
+function render() {
+  listEl.innerHTML = "";
+  shoppinglist.forEach((item, index) => {
+    // Card container
+    const row = document.createElement("p");
+    if (item.disabled) row.classList.add("disabled");
 
-           <p id="shoppinglist-${index}" class="${
-            item.disabled ? "disabled" : "" 
-        }" onclick="editTask(${index})">${item.text}</p>
-          </div>
+    // Checkbox
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = !!item.disabled;
 
-        `;
-        p.querySelector(".shoppinglist-checkbox").addEventListener
-        ("change", () => 
-            toggleTask (index)
-        );
-        shoppingList.appendChild(p);
-      });
-      shoppinglistCount.textContent = shoppinglist.length;
-}
+    // Text span (keeps it beside the checkbox)
+    const span = document.createElement("span");
+    span.className = "item-text";
+    span.textContent = item.text;
 
-function editTask(index) {
-    const shoppinglistItem = document.getElementById(`shoppinglist-${index}`);
-    const existingText = shoppinglist[index.text];
-    const inputElement = document.createElement("input");
-
-    inputElement.value = existingText;
-    shoppinglistItem.replaceWith(inputElement);
-
-    inputElement.focus();
-
-    inputElement.addEventListener("blur", function () {
-        const updatedText = inputElement.value.trim();
-        if (updatedText) {
-            shoppinglist[index].text = updatedText;
-            saveToLocalStorage();
-        }
-        displayTasks();
-
+    // Events
+    cb.addEventListener("change", () => {
+      shoppinglist[index].disabled = cb.checked;
+      save();
+      render(); // re-render to update class + count
     });
+
+    row.append(cb, span);
+    listEl.appendChild(row);
+  });
+
+  updateCount();
 }
 
-function toggleTask(index) {
-    shoppinglist[index].disabled = !shoppinglist[index].disabled;
-    saveToLocalStorage();
-    displayTasks();
+function addItem() {
+  const text = (inputEl.value || "").trim();
+  if (!text) return;
+  shoppinglist.push({ text, disabled: false });
+  inputEl.value = "";
+  save();
+  render();
 }
 
-function deleteAllTasks() {
-    shoppinglist=[];
-    saveToLocalStorage();
-    displayTasks();
+function deleteAll() {
+  shoppinglist = [];
+  save();
+  render();
 }
 
-function saveToLocalStorage() {
-    localStorage.setItem("shoppinglist",JSON.stringify(shoppinglist));
+// ===== Wire up =====
+addBtn.addEventListener("click", addItem);
+inputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") addItem();
+});
+delAllBtn.addEventListener("click", deleteAll);
 
-}
-
+// Initial render
+render();
